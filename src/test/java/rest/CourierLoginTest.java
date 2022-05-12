@@ -33,7 +33,7 @@ public class CourierLoginTest {
     }
 
     @Test
-    @DisplayName("Could login")
+    @DisplayName("Can login")
     public void loginSuccess() {
 
         Credentials credentials = Credentials.from(courier);
@@ -47,7 +47,7 @@ public class CourierLoginTest {
     }
 
     @Test
-    @DisplayName("Couldn't login without required fields")
+    @DisplayName("Can't login without required fields")
     public void requiredFieldsDntExistError() {
 
         Credentials wrongCredos = new Credentials("", "");
@@ -67,7 +67,7 @@ public class CourierLoginTest {
 
 
     @Test
-    @DisplayName("Couldn't login with non-existing user")
+    @DisplayName("Can't login with non-existing user")
     public void userDntExistError() {
 
         Credentials wrongCredos = new Credentials("unique123", "unique123");

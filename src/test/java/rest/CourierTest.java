@@ -25,7 +25,7 @@ public class CourierTest {
     }
 
     @Test
-    @DisplayName("Could create new courier")
+    @DisplayName("Can create new courier")
     public void creationSuccess() {
         Courier courier = Courier.getRandom();
 
@@ -45,7 +45,7 @@ public class CourierTest {
     }
 
     @Test
-    @DisplayName("Couldn't create courier with non-unique login")
+    @DisplayName("Can't create courier with non-unique login")
     public void cntCreateTwoSameUsers() {
         Courier courier = Courier.getRandom();
 
@@ -70,7 +70,7 @@ public class CourierTest {
     }
 
     @Test
-    @DisplayName("Couldn't create courier without required fields")
+    @DisplayName("Can't create courier without required fields")
     public void requiredFieldsDntExistError() {
         Courier courier = new Courier();
 

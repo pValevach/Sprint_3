@@ -1,5 +1,6 @@
 package rest;
 
+import io.qameta.allure.junit4.DisplayName;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.OrdersList;
@@ -16,6 +17,7 @@ public class OrdersListTest {
     }
 
     @Test
+    @DisplayName("Can get orders list")
     public void getOrderListCountNotNull() {
         OrdersList ordersList = new OrdersList();
 
