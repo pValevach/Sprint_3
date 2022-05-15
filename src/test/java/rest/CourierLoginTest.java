@@ -1,13 +1,13 @@
 package rest;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pojo.Courier;
 import pojo.Credentials;
 
+import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
@@ -16,20 +16,19 @@ public class CourierLoginTest {
     private int courierId;
     private CourierClient courierClient;
     private final Courier courier = Courier.getRandom();
-    ;
 
     @Before
     public void setup() {
         courierClient = new CourierClient();
 
-        courierClient.create(courier)
+        courierClient.createCourier(courier)
                 .assertThat()
-                .statusCode(201);
+                .statusCode(SC_CREATED);
     }
 
     @After
     public void teardown() {
-        courierClient.delete(courierId);
+        courierClient.deleteCourier(courierId);
     }
 
     @Test
@@ -39,7 +38,7 @@ public class CourierLoginTest {
         Credentials credentials = Credentials.from(courier);
         courierId = courierClient.login(credentials)
                 .assertThat()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .extract()
                 .path("id");
 
@@ -47,13 +46,13 @@ public class CourierLoginTest {
     }
 
     @Test
-    @DisplayName("Can't login without required fields")
+    @DisplayName("Can't login with wrong credos")
     public void requiredFieldsDntExistError() {
 
         Credentials wrongCredos = new Credentials("", "");
         String errorMessage = courierClient.login(wrongCredos)
                 .assertThat()
-                .statusCode(400)
+                .statusCode(SC_BAD_REQUEST)
                 .extract()
                 .path("message");
 
@@ -65,6 +64,24 @@ public class CourierLoginTest {
         assertEquals("Недостаточно данных для входа", errorMessage);
     }
 
+    @Test
+    @DisplayName("Can't login with wrong password")
+    public void wrongPasswordError() {
+
+        Credentials wrongPasswordCredos = new Credentials(courier.getLogin(), "");
+        String errorMessage = courierClient.login(wrongPasswordCredos)
+                .assertThat()
+                .statusCode(SC_BAD_REQUEST)
+                .extract()
+                .path("message");
+
+        Credentials validCredos = Credentials.from(courier);
+        courierId = courierClient.login(validCredos)
+                .extract()
+                .path("id");
+
+        assertEquals("Недостаточно данных для входа", errorMessage);
+    }
 
     @Test
     @DisplayName("Can't login with non-existing user")
@@ -73,7 +90,7 @@ public class CourierLoginTest {
         Credentials wrongCredos = new Credentials("unique123", "unique123");
         String errorMessage = courierClient.login(wrongCredos)
                 .assertThat()
-                .statusCode(404)
+                .statusCode(SC_NOT_FOUND)
                 .extract()
                 .path("message");
 

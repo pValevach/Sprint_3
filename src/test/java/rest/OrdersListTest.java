@@ -6,6 +6,7 @@ import org.junit.Test;
 import pojo.OrdersList;
 import java.util.List;
 import static org.junit.Assert.assertNotNull;
+import static org.apache.http.HttpStatus.*;
 
 public class OrdersListTest {
 
@@ -23,7 +24,7 @@ public class OrdersListTest {
 
         List<Object[]> count = ordersClient.getListOf(ordersList)
                 .assertThat()
-                .statusCode(200)
+                .statusCode(SC_OK)
                 .extract()
                 .path("orders");
 

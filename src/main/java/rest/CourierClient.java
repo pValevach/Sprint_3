@@ -1,10 +1,11 @@
 package rest;
 
-import io.restassured.response.Validatable;
+import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
-import org.apache.groovy.json.internal.Value;
 import pojo.Courier;
 import pojo.Credentials;
+
+import static org.apache.http.HttpStatus.*;
 
 public class CourierClient extends RestClient {
 
@@ -12,7 +13,8 @@ public class CourierClient extends RestClient {
     private final String LOGIN = ROOT + "/login";
     private final String COURIER = ROOT + "/{courierId}";
 
-    public ValidatableResponse create(Courier courier) {
+    @Step("Send POST request to api/v1/courier and save response")
+    public ValidatableResponse createCourier(Courier courier) {
         return reqSpec
                 .body(courier)
                 .when()
@@ -20,6 +22,7 @@ public class CourierClient extends RestClient {
                 .then().log().all();
     }
 
+    @Step("Send POST request to api/v1/courier/login and save response")
     public ValidatableResponse login(Credentials credentials) {
         return reqSpec
                 .body(credentials)
@@ -28,14 +31,15 @@ public class CourierClient extends RestClient {
                 .then().log().all();
     }
 
-    public void delete(int courierId) {
+    @Step("Send DELETE request to api/v1/courier/{courierId}, save response and check that SC is 200")
+    public void deleteCourier(int courierId) {
         reqSpec
                 .pathParam("courierId", courierId)
                 .when()
                 .delete(COURIER)
                 .then().log().all()
                 .assertThat()
-                .statusCode(200);
+                .statusCode(SC_OK);
     }
 }
 

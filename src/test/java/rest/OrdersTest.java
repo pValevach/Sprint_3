@@ -1,18 +1,16 @@
 package rest;
 
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import pojo.Courier;
 import pojo.Orders;
+
+import static org.apache.http.HttpStatus.*;
 
 import java.util.*;
 
 import static org.junit.Assert.assertNotEquals;
-
 
 @RunWith(Parameterized.class)
 public class OrdersTest {
@@ -43,7 +41,7 @@ public class OrdersTest {
 
         int orderTrack = ordersClient.create(orders)
                 .assertThat()
-                .statusCode(201)
+                .statusCode(SC_CREATED)
                 .extract()
                 .path("track");
 

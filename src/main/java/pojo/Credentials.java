@@ -1,5 +1,6 @@
 package pojo;
 
+import io.qameta.allure.Step;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class Credentials {
         this.password = courier.getPassword();
     }
 
+    @Step("Get credos object from an existing courier")
     public static Credentials from(Courier courier) {
         return new Credentials(courier);
     }

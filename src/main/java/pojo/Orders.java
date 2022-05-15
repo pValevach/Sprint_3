@@ -1,9 +1,9 @@
 package pojo;
 
+import io.qameta.allure.Step;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,15 +20,16 @@ public class Orders {
     public String comment;
     public String[] color;
 
+    @Step("Get orders object with hardcode fields")
     public static Orders getDefault() {
         return new Orders("Кабанчик",
-                "Кабанище",
+                "Весело",
                 "Поле, 414 apt.",
                 3,
-                "+7 888 000 55 44",
+                "+7 111 222 33 44",
                 5,
-                "2020-05-06",
-                "Кабанчик вернись в Кабаноху",
+                "2022-05-16",
+                "Скоро буде свято, весела гулянка",
                 null);
     }
 }
